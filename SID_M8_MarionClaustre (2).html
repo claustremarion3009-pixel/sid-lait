@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SID — Composition du lait | Marion Claustre · BTS Anabiotec</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:        #F2E8E8;
+  --paper:     #FFFFFF;
+  --paper2:    #FAF3F4;
+  --ink:       #2A1F23;
+  --text:      #2C2228;
+  --mid:       #5A4A52;
+  --light:     #9B8890;
+  --border:    #DCC8CE;
+  --accent:    #8B3A52;
+  --accent2:   #B5708A;
+  --accent3:   #D9B5C2;
+  --tag:       #EFD9DF;
+  --hover:     #F4E4E8;
+  --soft:      #EDDDE2;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:17px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-weight:400;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:64px;background:rgba(242,232,232,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:200;display:flex;align-items:center;padding:0 2.5rem;}
+.brand{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-right:auto;text-decoration:none;font-weight:600;}
+.nav-links{display:flex;list-style:none;gap:1.4rem;}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;padding:.3rem 0;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);font-weight:600;}
+
+/* HERO */
+.hero{margin-top:64px;padding:7rem 2.5rem 5rem;max-width:1200px;margin-left:auto;margin-right:auto;}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;font-weight:600;}
+.hero-tag::before{content:'';width:36px;height:2px;background:var(--accent);}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5.5vw,4.4rem);font-weight:600;line-height:1.1;color:var(--ink);margin-bottom:1.5rem;letter-spacing:-.02em;}
+.hero h1 em{font-style:italic;color:var(--accent);font-weight:700;}
+.hero-sub{font-size:1.2rem;color:var(--mid);max-width:720px;font-weight:400;margin-bottom:3rem;line-height:1.6;}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;padding-top:2rem;border-top:2px solid var(--border);}
+.meta-item span{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.5rem;font-weight:600;}
+.meta-item strong{font-size:1.05rem;color:var(--ink);font-weight:600;}
+
+/* GRILLE C3.1 */
+.grade-grid{background:var(--soft);border-top:2px solid var(--border);border-bottom:2px solid var(--border);padding:2.5rem;}
+.grade-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.grade-block{background:var(--paper);border:2px solid var(--border);padding:1.8rem 2rem;}
+.grade-num{display:inline-block;background:var(--accent);color:#fff;padding:.35rem .85rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.1em;margin-bottom:.8rem;font-weight:600;}
+.grade-block h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.6rem;}
+.grade-block p{font-size:1.02rem;color:var(--text);margin:0;line-height:1.6;}
+
+/* SECTIONS */
+section{max-width:1200px;margin:0 auto;padding:5rem 2.5rem;border-top:2px solid var(--border);}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.7rem;font-weight:600;}
+.sec-tag::before{content:'';width:28px;height:2px;background:var(--accent);}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.1rem,3.5vw,3rem);font-weight:600;color:var(--ink);line-height:1.15;margin-bottom:1.2rem;letter-spacing:-.01em;}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.7rem;line-height:1.3;}
+.lead{font-size:1.18rem;color:var(--mid);font-weight:400;max-width:780px;margin-bottom:3rem;line-height:1.65;}
+p{font-size:1.05rem;margin-bottom:1rem;color:var(--text);line-height:1.7;}
+p:last-child{margin-bottom:0;}
+strong{color:var(--ink);font-weight:600;}
+
+.sub-tag{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.8rem;font-weight:600;}
+
+/* PRESENTATION */
+.pres-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;margin-top:2rem;}
+.sub-section{margin-bottom:2.5rem;}
+.sub-section:last-child{margin-bottom:0;}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-top:1rem;}
+.obj-list li{display:flex;gap:.9rem;align-items:start;font-size:1.02rem;color:var(--text);line-height:1.6;}
+.obj-list li::before{content:'';width:8px;height:8px;background:var(--accent);margin-top:.6rem;flex-shrink:0;border-radius:50%;}
+
+.def-list{background:var(--paper);border:2px solid var(--border);padding:1.8rem 2.2rem;}
+.def{padding:1.1rem 0;border-bottom:1px solid var(--border);}
+.def:last-child{border-bottom:none;padding-bottom:0;}
+.def:first-child{padding-top:0;}
+.def dt{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+.def dd{font-size:.98rem;color:var(--text);line-height:1.65;}
+
+.farms-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1rem;}
+.farm-card{background:var(--paper);border:2px solid var(--border);padding:1.8rem;position:relative;transition:border-color .2s;}
+.farm-card:hover{border-color:var(--accent);}
+.farm-card.f2{background:var(--accent);border-color:var(--accent);}
+.farm-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--border);line-height:1;position:absolute;right:1.2rem;top:.6rem;}
+.farm-card.f2 .farm-num{color:rgba(255,255,255,.25);}
+.farm-label{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;font-weight:600;}
+.farm-card.f2 .farm-label{color:rgba(255,255,255,.85);}
+.farm-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--ink);}
+.farm-card.f2 .farm-name{color:#fff;}
+.farm-breed{font-size:.96rem;font-style:italic;color:var(--mid);margin-top:.3rem;}
+.farm-card.f2 .farm-breed{color:rgba(255,255,255,.85);}
+
+/* BESOINS C3.1 */
+.besoins-block{background:var(--paper2);padding:2rem 2.2rem;border-left:4px solid var(--accent);margin-top:2rem;}
+.besoins-block h3{margin-bottom:1rem;}
+.besoins-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.98rem;}
+.besoins-table th{text-align:left;padding:.95rem 1.1rem;background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
+.besoins-table td{padding:.85rem 1.1rem;border-bottom:1px solid var(--border);background:var(--paper);}
+.besoins-table tr:last-child td{border-bottom:none;}
+
+/* DOMAINE */
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem;}
+.dc{background:var(--paper);border:2px solid var(--border);padding:1.8rem;transition:all .2s;}
+.dc:hover{border-color:var(--accent);transform:translateY(-2px);}
+.dc-num{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--accent);letter-spacing:.14em;margin-bottom:.7rem;font-weight:600;}
+.dc h3{font-size:1.2rem;}
+.dc p{font-size:.97rem;color:var(--text);line-height:1.65;margin:0;}
+
+.subdomains{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2rem;}
+.subdomain{padding:1.4rem 1.7rem;background:var(--tag);border-left:3px solid var(--accent);}
+.subdomain h3{font-size:1.1rem;margin-bottom:.5rem;}
+.subdomain p{font-size:.95rem;color:var(--text);margin:0;}
+
+/* RESSOURCES */
+.res-section{margin-bottom:3rem;}
+.res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:1.5rem;}
+.res-item{background:var(--paper);border:2px solid var(--border);padding:1.5rem 1.7rem;transition:all .2s;}
+.res-item:hover{border-color:var(--accent);background:var(--hover);}
+.res-type{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;font-weight:600;}
+.res-item h3{font-size:1.1rem;margin-bottom:.4rem;}
+.res-item p{font-size:.92rem;color:var(--text);line-height:1.6;margin:0;}
+
+.proto-list{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem;}
+.proto{display:grid;grid-template-columns:60px 1fr;gap:1.5rem;padding:1.5rem 1.8rem;background:var(--paper);border:2px solid var(--border);align-items:start;}
+.pn{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--accent);line-height:1;}
+.proto h3{font-size:1.1rem;margin-bottom:.3rem;}
+.proto p{font-size:.95rem;color:var(--text);margin:0;line-height:1.65;}
+
+.tab-section{margin-top:2.5rem;}
+.tbl-wrap{overflow-x:auto;background:var(--paper);border:2px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:.98rem;}
+thead tr{background:var(--accent);}
+thead th{padding:.95rem 1.3rem;color:#fff;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--hover);}
+tbody td{padding:.9rem 1.3rem;color:var(--text);}
+tbody td.mono{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--mid);}
+.hi{color:var(--accent)!important;font-weight:700;}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.5rem;}
+.kpi{background:var(--paper);border:2px solid var(--border);padding:2rem 1.7rem;border-top:4px solid var(--accent);}
+.kpi-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--accent);line-height:1;}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--ink);letter-spacing:.12em;text-transform:uppercase;margin-top:.8rem;font-weight:600;}
+.kpi-sub{font-size:.92rem;color:var(--text);margin-top:.4rem;}
+
+/* RECHERCHE */
+.tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;}
+.tag-item{padding:.45rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--tag);color:var(--accent);border:1px solid var(--border);transition:all .2s;font-weight:500;}
+.tag-item:hover,.tag-item.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+.crit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem;}
+.crit{display:flex;gap:1.2rem;align-items:start;padding:1.4rem 1.6rem;background:var(--paper);border:2px solid var(--border);}
+.crit-letter{width:38px;height:38px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;}
+.crit h3{font-size:1.05rem;margin-bottom:.3rem;}
+.crit p{font-size:.92rem;color:var(--text);margin:0;line-height:1.55;}
+
+.sources-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem;}
+.src{padding:1.2rem 1.5rem;background:var(--paper);border-left:3px solid var(--accent);border-top:2px solid var(--border);border-right:2px solid var(--border);border-bottom:2px solid var(--border);}
+.src strong{display:block;font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;font-weight:600;}
+.src span{font-size:.96rem;color:var(--text);}
+
+/* TRAITEMENT C3.1 */
+.trait-block{background:var(--paper2);padding:2rem 2.2rem;border-left:4px solid var(--accent);margin-top:2rem;}
+.trait-block h3{margin-bottom:1rem;}
+.trait-list{display:flex;flex-direction:column;gap:1.1rem;margin-top:1.2rem;}
+.trait-item{padding:1.2rem 1.5rem;background:var(--paper);border:2px solid var(--border);}
+.trait-item strong{display:block;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem;font-weight:600;}
+.trait-item p{font-size:.97rem;color:var(--text);margin:0;line-height:1.65;}
+
+/* VEILLE */
+.veille-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem;}
+.vc{padding:1.7rem;background:var(--paper);border:2px solid var(--border);transition:all .2s;}
+.vc:hover{border-color:var(--accent);background:var(--hover);}
+.vc-date{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;font-weight:600;}
+.vc h3{font-size:1.1rem;margin-bottom:.4rem;}
+.vc p{font-size:.92rem;color:var(--text);margin:0;line-height:1.6;}
+
+/* GLOSSAIRE */
+.glossary{background:var(--paper);border:2px solid var(--border);padding:2.2rem 2.7rem;margin-top:1.5rem;}
+.glo-letter{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);padding-bottom:.4rem;margin-bottom:1.2rem;margin-top:1.8rem;}
+.glo-letter:first-child{margin-top:0;}
+.glo-entry{padding:.85rem 0;border-bottom:1px solid var(--border);}
+.glo-entry:last-child{border-bottom:none;}
+.glo-term{font-weight:700;color:var(--ink);font-size:1.08rem;margin-bottom:.3rem;}
+.glo-term .abbr{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--accent);margin-left:.5rem;font-weight:500;}
+.glo-def{font-size:.96rem;color:var(--text);line-height:1.65;}
+
+/* BIBLIO */
+.biblio-list{display:flex;flex-direction:column;gap:.8rem;margin-top:1rem;}
+.biblio-entry{padding:1.3rem 1.6rem;background:var(--paper);border:2px solid var(--border);font-size:.97rem;line-height:1.65;color:var(--text);}
+.biblio-entry .ref-num{font-family:'JetBrains Mono',monospace;font-size:.86rem;color:var(--accent);font-weight:700;margin-right:.7rem;}
+.biblio-entry em{color:var(--ink);}
+
+/* LIENS */
+.links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem;}
+.link-card{padding:1.6rem 1.8rem;background:var(--paper);border:2px solid var(--border);transition:all .2s;text-decoration:none;color:inherit;display:block;}
+.link-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.link-cat{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem;font-weight:600;}
+.link-card h3{font-size:1.08rem;margin-bottom:.4rem;}
+.link-card p{font-size:.92rem;color:var(--text);margin:0;}
+
+/* À PROPOS */
+.about-grid{display:grid;grid-template-columns:1fr 2fr;gap:3rem;margin-top:2rem;align-items:start;}
+.about-card{background:var(--accent);color:#fff;padding:2.2rem;}
+.about-card h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;margin-bottom:.3rem;}
+.about-role{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:rgba(255,255,255,.85);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.6rem;font-weight:600;}
+.about-info{display:flex;flex-direction:column;gap:.8rem;}
+.about-info span{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:rgba(255,255,255,.75);letter-spacing:.06em;display:block;font-weight:600;}
+.about-info strong{color:#fff;font-weight:600;font-size:1rem;font-family:'Inter',sans-serif;letter-spacing:0;}
+.method-section{margin-bottom:2rem;}
+.method-section h3{margin-bottom:.7rem;}
+
+.sid-fn{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.2rem;}
+.sf{padding:1.4rem;background:var(--paper);border:2px solid var(--border);border-top:4px solid var(--accent);}
+.sf-num{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.12em;margin-bottom:.5rem;font-weight:600;}
+.sf h3{font-size:1.08rem;margin-bottom:.5rem;}
+.sf p{font-size:.92rem;color:var(--text);margin:0;line-height:1.6;}
+
+/* FOOTER */
+footer{border-top:2px solid var(--border);background:var(--paper);padding:2.5rem;margin-top:3rem;}
+.foot-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.foot-brand{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink);font-weight:600;}
+.foot-text{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--mid);letter-spacing:.06em;font-weight:500;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  html{font-size:15px;}
+  .hero-meta,.pres-grid,.domain-grid,.res-grid,.veille-grid,.links-grid,.kpi-grid,.subdomains,.crit-grid,.sources-grid,.about-grid,.sid-fn,.grade-wrap{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="#">SID · Composition du lait</a>
+  <ul class="nav-links">
+    <li><a href="#presentation">Présentation</a></li>
+    <li><a href="#besoins">Besoins</a></li>
+    <li><a href="#domaine">Domaine</a></li>
+    <li><a href="#ressources">Ressources</a></li>
+    <li><a href="#recherche">Recherche</a></li>
+    <li><a href="#traitement">Traitement</a></li>
+    <li><a href="#veille">Veille</a></li>
+    <li><a href="#glossaire">Glossaire</a></li>
+    <li><a href="#bibliographie">Bibliographie</a></li>
+    <li><a href="#liens">Liens</a></li>
+    <li><a href="#apropos">À propos</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-tag">Système d'Information Documentaire — Projet M8 — BTS Anabiotec</div>
+  <h1>Quelles différences de composition du lait observe-t-on entre <em>deux fermes,</em> et comment l'expliquer&nbsp;?</h1>
+  <p class="hero-sub">Étude analytique comparative menée sur deux exploitations laitières bretonnes. Dosages minéraux par spectrométrie atomique, détermination protéique par méthode Kjeldahl et caractérisation du profil en acides gras par chromatographie en phase gazeuse.</p>
+  <div class="hero-meta">
+    <div class="meta-item"><span>Auteure</span><strong>Marion Claustre</strong></div>
+    <div class="meta-item"><span>Promotion</span><strong>BTS Anabiotec 2024-2026</strong></div>
+    <div class="meta-item"><span>Établissement</span><strong>LEGTA Le Gros Chêne, Pontivy</strong></div>
+    <div class="meta-item"><span>Période</span><strong>Mars 2026</strong></div>
+  </div>
+</header>
+
+<div class="grade-grid">
+  <div class="grade-wrap">
+    <div class="grade-block">
+      <span class="grade-num">Critère 1 — /8</span>
+      <h3>Utilisation raisonnée des SI</h3>
+      <p>Analyse précise des besoins d'information, identification des supports et systèmes appropriés, justification des choix en fonction des contextes de production, d'édition et de diffusion.</p>
+    </div>
+    <div class="grade-block">
+      <span class="grade-num">Critère 2 — /12</span>
+      <h3>Traitement de l'information</h3>
+      <p>Sélection d'informations valides et pertinentes, reformulation et condensation, organisation hiérarchique dans le SID numérique, explicitation des étapes constitutives du système d'information.</p>
+    </div>
+  </div>
+</div>
+
+<section id="presentation" class="reveal">
+  <div class="sec-tag">01 — Présentation du sujet</div>
+  <h2>Contexte, objectifs et définitions clés</h2>
+  <p class="lead">Cette première partie présente le cadre du projet, les objectifs poursuivis et les notions essentielles permettant de comprendre la suite des analyses.</p>
+
+  <div class="pres-grid">
+    <div>
+      <div class="sub-section">
+        <div class="sub-tag">Contexte scientifique</div>
+        <h3>Comprendre la variabilité du lait</h3>
+        <p>La composition du lait de vache varie selon de nombreux facteurs : la race des animaux, leur alimentation, leur état physiologique, les conditions d'élevage et la qualité de l'eau d'abreuvement. En France, la race Prim'Holstein domine la production laitière par ses volumes, tandis que la race Pie Rouge produit un lait naturellement plus riche en matières grasses et protéines.</p>
+        <p>Notre étude vise à comparer expérimentalement la composition du lait de deux exploitations bretonnes aux profils d'élevage distincts, afin d'identifier des différences mesurables et d'en comprendre les causes (génétiques, alimentaires, environnementales).</p>
+      </div>
+      <div class="sub-section">
+        <div class="sub-tag">Objectifs de l'étude</div>
+        <ul class="obj-list">
+          <li>Comparer la teneur en minéraux (Ca²⁺, Mg²⁺, Na⁺, K⁺) du lait et de l'eau d'abreuvement des deux exploitations</li>
+          <li>Déterminer la teneur en protéines totales par la méthode Kjeldahl</li>
+          <li>Caractériser le profil en acides gras par chromatographie en phase gazeuse</li>
+          <li>Mettre en relation les résultats avec les pratiques d'élevage et la composition des rations</li>
+          <li>Valider les méthodes analytiques par calcul d'incertitudes et critères de fidélité</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <div class="sub-tag">Présentation des commanditaires</div>
+        <div class="farms-grid">
+          <div class="farm-card"><div class="farm-num">01</div><div class="farm-label">Exploitation 1</div><div class="farm-name">David CLAIRE</div><div class="farm-breed">100 % Prim'Holstein</div></div>
+          <div class="farm-card f2"><div class="farm-num">02</div><div class="farm-label">Exploitation 2</div><div class="farm-name">Anthony LE GOFF</div><div class="farm-breed">Prim'Holstein + Pie Rouge</div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sub-tag">Définitions clés</div>
+      <div class="def-list">
+        <div class="def"><dt>Lait cru</dt><dd>Lait sortant directement du pis de la vache, sans aucun traitement thermique. Composition : eau (87 %), matières grasses (3,5–4,5 %), protéines (3–3,5 %), lactose (4,7 %), minéraux (0,7 %).</dd></div>
+        <div class="def"><dt>Tank à lait</dt><dd>Cuve réfrigérée où le lait est stocké à +4 °C entre la traite et la collecte. Le prélèvement dans le tank donne une moyenne de l'ensemble du troupeau.</dd></div>
+        <div class="def"><dt>Race Prim'Holstein</dt><dd>Race laitière dominante en France (60 % du cheptel). Production : 9 000 à 12 000 L/an. Lait moins concentré en matières utiles.</dd></div>
+        <div class="def"><dt>Race Pie Rouge</dt><dd>Race à vocation mixte. Production : 6 000 à 8 000 L/an. Lait plus riche en protéines et matières grasses, adapté à la transformation fromagère.</dd></div>
+        <div class="def"><dt>Acide gras essentiel</dt><dd>Acide gras que l'organisme ne sait pas synthétiser et qui doit être apporté par l'alimentation. Exemples : acide α-linolénique (ω3), acide linoléique (ω6).</dd></div>
+        <div class="def"><dt>Synthèse de novo</dt><dd>Production des acides gras à chaîne courte et moyenne (C4 à C14) directement par la mamelle, à partir de l'acétate ruminal.</dd></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="besoins" class="reveal">
+  <div class="sec-tag">02 — Analyse des besoins d'information · Critère 1 / 8</div>
+  <h2>Identification et justification des systèmes mobilisés</h2>
+  <p class="lead">Pour répondre à la problématique, j'ai identifié les genres d'information nécessaires, les supports les plus appropriés et les systèmes d'information adéquats à mobiliser.</p>
+
+  <div class="besoins-block">
+    <h3>Genres d'information recherchés</h3>
+    <p>Trois grandes familles d'informations ont été identifiées comme nécessaires au projet :</p>
+    <ul class="obj-list" style="margin-top:1rem;">
+      <li><strong>Informations scientifiques et techniques :</strong> données quantitatives (concentrations en mg/L, % d'acides gras), méthodes normalisées (ISO, NF), articles de recherche en biochimie du lait</li>
+      <li><strong>Informations zootechniques :</strong> caractéristiques des races bovines, performances laitières, pratiques d'élevage</li>
+      <li><strong>Informations réglementaires :</strong> normes de qualité de l'eau, valeurs de référence pour le lait, guides d'incertitude analytique</li>
+    </ul>
+  </div>
+
+  <div class="sub-tag" style="margin-top:2.5rem;">Justification des systèmes d'information mobilisés</div>
+  <div class="tbl-wrap" style="margin-top:1rem;">
+    <table class="besoins-table">
+      <thead>
+        <tr><th>Système</th><th>Contexte de production</th><th>Contexte d'édition</th><th>Mode de diffusion</th><th>Public cible</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Logiciel SpectrAA</strong></td><td>Laboratoire LABO-07</td><td>Rapport automatique SAA/SEA</td><td>Papier / PDF interne</td><td>Étudiants, encadrants</td></tr>
+        <tr><td><strong>Tableur Google Sheets</strong></td><td>Traitement chromatogrammes CPG</td><td>Calculs % aires relatives</td><td>Lien Drive partagé</td><td>Groupe projet</td></tr>
+        <tr><td><strong>PubMed / Google Scholar</strong></td><td>Bases bibliographiques</td><td>Articles à comité de lecture</td><td>Téléchargement PDF</td><td>Étudiants BTS</td></tr>
+        <tr><td><strong>Tables INRAE (Quæ)</strong></td><td>Recherche publique</td><td>Ouvrage imprimé et numérique</td><td>Consultation directe</td><td>Étudiants, agriculteurs</td></tr>
+        <tr><td><strong>Normes AFNOR / ISO</strong></td><td>Organismes de normalisation</td><td>Référentiel technique officiel</td><td>Bibliothèque normes</td><td>Laboratoires, étudiants</td></tr>
+        <tr><td><strong>Ce site web (SID)</strong></td><td>Projet M8 BTS 2026</td><td>HTML/CSS — conception personnelle</td><td class="hi">Diffusion large — accès public</td><td>Commanditaires, examinateurs, public</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="domaine" class="reveal">
+  <div class="sec-tag">03 — Domaine scientifique</div>
+  <h2>Concepts principaux, sous-domaines et théories</h2>
+  <p class="lead">Ce projet mobilise plusieurs disciplines : biochimie du lait, zootechnie, chimie analytique et nutrition animale.</p>
+
+  <div class="sub-tag" style="margin-top:1rem;">Concepts principaux</div>
+  <div class="domain-grid">
+    <div class="dc"><div class="dc-num">Concept · 01</div><h3>Composition minérale du lait</h3><p>Le lait contient des macro-éléments (Ca, Mg, Na, K, P) et oligo-éléments. La teneur en calcium (~1 200 mg/L) est régulée par la mamelle et dépend de la race et de la ration.</p></div>
+    <div class="dc"><div class="dc-num">Concept · 02</div><h3>Protéines laitières</h3><p>Le lait contient ~80 % de caséines (αs1, αs2, β, κ) et ~20 % de protéines du lactosérum. Le facteur Kjeldahl 6,38 est spécifique au lait.</p></div>
+    <div class="dc"><div class="dc-num">Concept · 03</div><h3>Profil en acides gras</h3><p>La matière grasse contient des AGS (palmitique C16:0), AGMI (oléique C18:1) et AGPI (α-linolénique C18:3 ω3). Le profil reflète directement la ration animale.</p></div>
+    <div class="dc"><div class="dc-num">Concept · 04</div><h3>Spectrométrie atomique</h3><p>Technique d'analyse des éléments métalliques. La SAA mesure l'absorption de la lumière par les atomes, la SEA mesure leur émission lumineuse en flamme.</p></div>
+    <div class="dc"><div class="dc-num">Concept · 05</div><h3>Méthode Kjeldahl</h3><p>Méthode normalisée de dosage de l'azote total. Trois étapes : minéralisation (H₂SO₄), distillation (NaOH), titration (HCl). Conversion en protéines : %N × 6,38.</p></div>
+    <div class="dc"><div class="dc-num">Concept · 06</div><h3>Chromatographie en phase gazeuse</h3><p>Technique de séparation des composés volatils sur colonne capillaire. Détection FID. Identification par comparaison de temps de rétention avec des étalons.</p></div>
+  </div>
+
+  <div class="sub-tag" style="margin-top:3rem;">Sous-domaines impliqués</div>
+  <div class="subdomains">
+    <div class="subdomain"><h3>Biochimie alimentaire</h3><p>Étude des composants chimiques du lait, leurs interactions et leur transformation lors des analyses.</p></div>
+    <div class="subdomain"><h3>Chimie analytique</h3><p>Méthodes de quantification (spectrométrie, chromatographie, titrimétrie), validation et calcul d'incertitudes.</p></div>
+    <div class="subdomain"><h3>Zootechnie laitière</h3><p>Étude des races bovines, de leur génétique et de leurs performances de production.</p></div>
+    <div class="subdomain"><h3>Nutrition animale</h3><p>Influence de la ration (fourrages, concentrés, eau) sur la composition et la qualité du lait produit.</p></div>
+  </div>
+</section>
+
+<section id="ressources" class="reveal">
+  <div class="sec-tag">04 — Ressources documentaires</div>
+  <h2>Articles, protocoles et données expérimentales</h2>
+  <p class="lead">Les ressources mobilisées comprennent des articles scientifiques, des normes officielles, les protocoles analytiques mis en œuvre et les données expérimentales obtenues.</p>
+
+  <div class="res-section">
+    <div class="sub-tag">Articles, ouvrages et normes</div>
+    <div class="res-grid">
+      <div class="res-item"><div class="res-type">Article scientifique</div><h3>Chilliard Y. et al. (2001)</h3><p>Effect of different types of forages, animal fat or marine oils in cow's diet on milk fat secretion and composition. <em>Livestock Production Science</em>, 70, 31–48.</p></div>
+      <div class="res-item"><div class="res-type">Ouvrage de référence</div><h3>Walstra P. et al. (2006)</h3><p>Dairy Science and Technology, 2nd edition. CRC Press. Référence fondamentale en science laitière.</p></div>
+      <div class="res-item"><div class="res-type">Tables INRAE</div><h3>INRAE (2018)</h3><p>Alimentation des ruminants. Éditions Quæ. Tables nutritives et besoins des bovins laitiers.</p></div>
+      <div class="res-item"><div class="res-type">Norme NF EN ISO</div><h3>NF EN ISO 8968-1 (2014)</h3><p>Lait et produits laitiers — Détermination de la teneur en azote par méthode Kjeldahl.</p></div>
+      <div class="res-item"><div class="res-type">Standard analytique</div><h3>SUPELCO (2023)</h3><p>GLC-10 et GLC-30 Fatty Acid Methyl Ester Mixtures. Mélanges de référence pour identification CPG.</p></div>
+      <div class="res-item"><div class="res-type">Guide métrologique</div><h3>EURACHEM/CITAC CG 4 (2012)</h3><p>Quantifying Uncertainty in Analytical Measurement. Calcul d'incertitude élargie U (k=2, 95 %).</p></div>
+    </div>
+  </div>
+
+  <div class="res-section">
+    <div class="sub-tag">Protocoles expérimentaux mis en œuvre</div>
+    <div class="proto-list">
+      <div class="proto"><div class="pn">01</div><div><h3>Prélèvement lait et eau</h3><p>Lait prélevé dans le tank de stockage (250 mL, flacon stérile, +4 °C) et eau dans l'abreuvoir principal (100 mL) des deux exploitations, les 11 et 16 mars 2026.</p></div></div>
+      <div class="proto"><div class="pn">02</div><div><h3>Dosage SAA — Calcium et Magnésium</h3><p>Spectrométrie d'absorption atomique en flamme air/acétylène. Ajout de LaCl₃ (27 g/L) pour supprimer les interférences phosphates. Minéralisation des laits par HNO₃ 65 %. Gammes : Ca²⁺ 0–0,8 mg/L (422,7 nm) ; Mg²⁺ 0–0,4 mg/L (285,2 nm).</p></div></div>
+      <div class="proto"><div class="pn">03</div><div><h3>Dosage SEA — Sodium et Potassium</h3><p>Spectrométrie d'émission atomique en flamme. Étalonnage quadratique 0–1 mg/L en 5 points (r ≥ 0,999). Na⁺ : 589 nm ; K⁺ : 766,5 nm.</p></div></div>
+      <div class="proto"><div class="pn">04</div><div><h3>Méthode Kjeldahl — Protéines totales</h3><p>Minéralisation H₂SO₄ + tablettes (CuSO₄/K₂SO₄) → distillation NaOH 1 mol/L (Kjelflex K-360) → titration H₂SO₄ 5×10⁻² mol/L. Masse pesée : 5,000 g. Calcul : protéines = %N × 6,38. Incertitude : U = ±0,3 g/L (k=2).</p></div></div>
+      <div class="proto"><div class="pn">05</div><div><h3>Extraction Gerber et transestérification</h3><p>Extraction de la matière grasse (H₂SO₄ 90-91 % + alcool isoamylique). Transestérification : NaOH/MeOH 2M (100 °C, 10 min) puis HCl/MeOH 2M (100 °C, 2 min). Récupération des EMAG dans l'heptane.</p></div></div>
+      <div class="proto"><div class="pn">06</div><div><h3>Chromatographie en phase gazeuse (CPG)</h3><p>Thermo TRACE 1600, colonne Stabilwax 60 m × 0,32 mm, FID. Identification des pics par comparaison des temps de rétention avec les étalons GLC-10 et GLC-30 (SUPELCO).</p></div></div>
+    </div>
+  </div>
+
+  <div class="res-section">
+    <div class="sub-tag">Données expérimentales — Résultats clés</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-num">+15 %</div><div class="kpi-label">Calcium dans le lait</div><div class="kpi-sub">LE GOFF : 1 445 vs CLAIRE : 1 258 mg/L</div></div>
+      <div class="kpi"><div class="kpi-num">+12 %</div><div class="kpi-label">Protéines totales</div><div class="kpi-sub">39,6 ± 0,3 vs 35,4 ± 0,3 g/L (Kjeldahl)</div></div>
+      <div class="kpi"><div class="kpi-num">×3,8</div><div class="kpi-label">Acide α-linolénique ω3</div><div class="kpi-sub">C18:3 : 1,50 vs 0,39 % (CPG)</div></div>
+    </div>
+
+    <div class="tab-section">
+      <div class="sub-tag">Tableau 1 — Composition minérale (mg/L)</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Matrice</th><th>Minéral</th><th>CLAIRE</th><th>LE GOFF</th><th>Référence</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Eau</td><td>Ca²⁺</td><td>15,0</td><td class="hi">46,3</td><td>&lt; 200</td><td>Conforme</td></tr>
+            <tr><td class="mono">Eau</td><td>Mg²⁺</td><td class="hi">13,7</td><td>4,5</td><td>&lt; 50</td><td>Conforme</td></tr>
+            <tr><td class="mono">Eau</td><td>K⁺</td><td>5,74</td><td>2,32</td><td>&lt; 12</td><td>Conforme</td></tr>
+            <tr><td class="mono">Eau</td><td>Na⁺</td><td>12,7</td><td>11,1</td><td>&lt; 200</td><td>Conforme</td></tr>
+            <tr><td class="mono">Lait</td><td>Ca²⁺</td><td>1 258</td><td class="hi">1 445</td><td>1 100–1 300</td><td>LE GOFF élevé</td></tr>
+            <tr><td class="mono">Lait</td><td>Mg²⁺</td><td>126,9</td><td>127,5</td><td>100–130</td><td>Identiques</td></tr>
+            <tr><td class="mono">Lait</td><td>K⁺</td><td>1 215</td><td class="hi">1 375</td><td>1 300–1 600</td><td>Conformes</td></tr>
+            <tr><td class="mono">Lait</td><td>Na⁺</td><td>390</td><td>406</td><td>300–600</td><td>Normaux</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-section">
+      <div class="sub-tag">Tableau 2 — Profil en acides gras (% aire relative)</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Acide gras</th><th>Notation</th><th>CLAIRE</th><th>LE GOFF</th><th>Référence</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Acide caprique</td><td class="mono">C10:0</td><td>1,76</td><td>2,00</td><td>2,7</td><td>Synthèse de novo</td></tr>
+            <tr><td>Acide laurique</td><td class="mono">C12:0</td><td>2,21</td><td>2,47</td><td>3,3</td><td>Synthèse de novo</td></tr>
+            <tr><td>Acide myristique</td><td class="mono">C14:0</td><td>7,32</td><td>7,05</td><td>10,7</td><td>Chaîne moyenne</td></tr>
+            <tr><td>Acide palmitique</td><td class="mono">C16:0</td><td class="hi">24,03</td><td>19,64</td><td>27,6</td><td>Plus élevé chez CLAIRE (ration maïs)</td></tr>
+            <tr><td>Acide stéarique</td><td class="mono">C18:0</td><td>5,19</td><td>3,73</td><td>10,1</td><td>AG saturé long</td></tr>
+            <tr><td>Acide oléique</td><td class="mono">C18:1</td><td>22,42</td><td>20,14</td><td>26,0</td><td>AGMI dominant</td></tr>
+            <tr><td>Acide linoléique</td><td class="mono">C18:2</td><td>1,58</td><td>1,45</td><td>2,5</td><td>Oméga-6 essentiel</td></tr>
+            <tr><td>Acide α-linolénique</td><td class="mono">C18:3 ω3</td><td>0,39</td><td class="hi">1,50</td><td>1,4</td><td>×3,8 chez LE GOFF (herbe/lin)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="recherche" class="reveal">
+  <div class="sec-tag">05 — Recherche documentaire</div>
+  <h2>Stratégie, mots-clés et critères de sélection</h2>
+  <p class="lead">La recherche documentaire a été structurée autour d'une stratégie précise, avec des mots-clés en français et anglais, des critères de qualité stricts et des sources fiables.</p>
+
+  <div class="sub-tag">Recherche par mots-clés</div>
+  <div class="tags">
+    <span class="tag-item primary">composition lait bovin</span><span class="tag-item primary">Prim'Holstein</span><span class="tag-item primary">Pie Rouge</span>
+    <span class="tag-item">acides gras lait</span><span class="tag-item">taux protéique</span><span class="tag-item">spectrométrie absorption atomique</span>
+    <span class="tag-item">méthode Kjeldahl</span><span class="tag-item">chromatographie phase gazeuse</span><span class="tag-item">alimentation bovine</span>
+    <span class="tag-item">omega-3 lait</span><span class="tag-item">calcium magnésium lait</span><span class="tag-item">fatty acid milk</span>
+    <span class="tag-item">dairy cow breed</span><span class="tag-item">milk protein content</span><span class="tag-item">linseed dairy</span>
+    <span class="tag-item">grass-fed milk</span>
+  </div>
+
+  <div class="sub-tag" style="margin-top:2.5rem;">Filtres et critères de sélection — méthode PFAQ</div>
+  <div class="crit-grid">
+    <div class="crit"><div class="crit-letter">P</div><div><h3>Pertinence</h3><p>Information directement liée à la problématique (composition laitière, races, alimentation, méthodes analytiques).</p></div></div>
+    <div class="crit"><div class="crit-letter">F</div><div><h3>Fiabilité</h3><p>Sources vérifiées : articles à comité de lecture, normes ISO/NF, tables INRAE, ouvrages universitaires.</p></div></div>
+    <div class="crit"><div class="crit-letter">A</div><div><h3>Actualité</h3><p>Priorité aux publications récentes (≤ 10 ans), exception faite des ouvrages de référence fondamentaux.</p></div></div>
+    <div class="crit"><div class="crit-letter">Q</div><div><h3>Qualité</h3><p>Données chiffrées, vérifiables, traçables. Exclusion des sources non identifiées ou non scientifiques.</p></div></div>
+  </div>
+
+  <div class="sub-tag" style="margin-top:2.5rem;">Bases de données et systèmes consultés</div>
+  <div class="sources-grid">
+    <div class="src"><strong>Moteur de recherche scientifique</strong><span>Google Scholar — recherche multicritères en français et anglais</span></div>
+    <div class="src"><strong>Base biomédicale</strong><span>PubMed (NCBI) — articles en nutrition animale et biochimie</span></div>
+    <div class="src"><strong>Tables officielles</strong><span>Tables INRAE (Quæ) — valeurs nutritives aliments</span></div>
+    <div class="src"><strong>Normes analytiques</strong><span>AFNOR / ISO — méthodes Kjeldahl, spectrométrie</span></div>
+    <div class="src"><strong>Logiciels de laboratoire</strong><span>SpectrAA (Varian) — rapports d'analyse SAA/SEA</span></div>
+    <div class="src"><strong>Fournisseurs analytiques</strong><span>SUPELCO/Sigma-Aldrich — fiches techniques étalons GLC</span></div>
+  </div>
+</section>
+
+<section id="traitement" class="reveal">
+  <div class="sec-tag">06 — Traitement de l'information · Critère 2 / 12</div>
+  <h2>Sélection, reformulation et organisation</h2>
+  <p class="lead">Cette section explicite la démarche de traitement de l'information en vue de sa communication : sélection justifiée, reformulation condensée et organisation hiérarchique dans le SID numérique.</p>
+
+  <div class="trait-block">
+    <h3>Sélection des informations valides et pertinentes</h3>
+    <p>La sélection a été réalisée à partir de plus de 40 sources consultées initialement, ramenées à 12 références essentielles selon les critères PFAQ.</p>
+    <div class="trait-list">
+      <div class="trait-item">
+        <strong>Justification au regard des intentions des émetteurs</strong>
+        <p>Les sources retenues émanent d'institutions publiques (INRAE, AFNOR, ISO), de revues scientifiques à comité de lecture (Livestock Production Science) et d'éditeurs universitaires (CRC Press). Toutes ces sources visent à diffuser une information vérifiée à un public scientifique ou professionnel.</p>
+      </div>
+      <div class="trait-item">
+        <strong>Cohérence avec les besoins du public cible</strong>
+        <p>Le SID s'adresse aux commanditaires (les éleveurs CLAIRE et LE GOFF), aux examinateurs (Mme BREMOND, équipe pédagogique) et plus largement aux étudiants en BTS Anabiotec. Les informations sont donc présentées avec un niveau de vulgarisation adapté tout en conservant la rigueur scientifique.</p>
+      </div>
+      <div class="trait-item">
+        <strong>Traçabilité de l'information</strong>
+        <p>Chaque information chiffrée renvoie à sa source primaire ou secondaire. Les protocoles respectent les normes ISO en vigueur. Les calculs d'incertitudes suivent le guide EURACHEM/CITAC CG 4. La bibliographie complète est référencée en section 09.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trait-block" style="margin-top:1.5rem;">
+    <h3>Reformulation et condensation</h3>
+    <p>Toutes les informations issues des sources externes ont été reformulées en respectant leur sens initial, sans copier-coller. La condensation a été réalisée à plusieurs niveaux :</p>
+    <div class="trait-list">
+      <div class="trait-item">
+        <strong>Niveau 1 — Synthèse des concepts</strong>
+        <p>Les concepts scientifiques complexes (composition minérale, profil en acides gras, méthodes analytiques) sont présentés en cartes courtes de 3 à 4 lignes maximum (section 03).</p>
+      </div>
+      <div class="trait-item">
+        <strong>Niveau 2 — Tableaux synthétiques</strong>
+        <p>Les résultats expérimentaux sont condensés en deux tableaux (minéraux, acides gras) permettant une lecture comparative rapide entre les deux exploitations (section 04).</p>
+      </div>
+      <div class="trait-item">
+        <strong>Niveau 3 — Indicateurs clés (KPI)</strong>
+        <p>Trois chiffres saillants (+15 %, +12 %, ×3,8) résument l'essentiel des résultats pour une consultation rapide.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trait-block" style="margin-top:1.5rem;">
+    <h3>Organisation et référencement dans le SID numérique</h3>
+    <p>L'information a été hiérarchisée, structurée et catégorisée selon l'arborescence universelle d'un SID scientifique :</p>
+    <div class="trait-list">
+      <div class="trait-item">
+        <strong>Hiérarchisation en 11 sections numérotées</strong>
+        <p>Présentation → Besoins → Domaine → Ressources → Recherche → Traitement → Veille → Glossaire → Bibliographie → Liens → À propos. Chaque section répond à une fonction précise de l'arborescence officielle.</p>
+      </div>
+      <div class="trait-item">
+        <strong>Navigation transversale optimisée</strong>
+        <p>Une barre de navigation fixe permet d'accéder à toute section en un seul clic. Le principe est respecté : maximum 2 clics pour atteindre l'information finale.</p>
+      </div>
+      <div class="trait-item">
+        <strong>Catégorisation par type d'information</strong>
+        <p>Les ressources sont classées par catégorie (article scientifique, ouvrage, norme, standard analytique, guide métrologique). Les protocoles sont numérotés. La bibliographie distingue sources primaires et secondaires.</p>
+      </div>
+      <div class="trait-item">
+        <strong>Étiquetage précis</strong>
+        <p>Chaque section est précédée d'un numéro et d'un mot-clé en typographie distinctive. Les mots-clés de recherche sont visibles sous forme de badges interactifs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trait-block" style="margin-top:1.5rem;">
+    <h3>Caractéristiques principales du SID numérique réalisé</h3>
+    <p>Ce SID met en avant les différentes étapes constitutives d'un système d'information documentaire :</p>
+    <div class="sid-fn" style="margin-top:1.2rem;">
+      <div class="sf"><div class="sf-num">Étape 1</div><h3>Collecter</h3><p>Recherche bibliographique, prélèvements, collecte des données analytiques brutes (rapports SpectrAA, chromatogrammes CPG).</p></div>
+      <div class="sf"><div class="sf-num">Étape 2</div><h3>Analyser</h3><p>Indexation par mots-clés, condensation des résultats en tableaux, calculs d'incertitudes, validation des méthodes.</p></div>
+      <div class="sf"><div class="sf-num">Étape 3</div><h3>Organiser</h3><p>Hiérarchisation en 11 sections numérotées, catégorisation par type d'information, navigation transversale.</p></div>
+      <div class="sf"><div class="sf-num">Étape 4</div><h3>Diffuser</h3><p>Mise en ligne accessible aux commanditaires, examinateurs et grand public, en complément du rapport et du poster.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="veille" class="reveal">
+  <div class="sec-tag">07 — Veille scientifique</div>
+  <h2>Actualités, dernières publications et nouveaux travaux</h2>
+  <p class="lead">La veille scientifique permet de rester informée des dernières avancées dans le domaine de la composition du lait bovin et des méthodes analytiques.</p>
+  <div class="veille-grid">
+    <div class="vc"><div class="vc-date">2024 — Nutrition animale</div><h3>Lin extrudé et profil oméga-3</h3><p>Études confirmant qu'un apport de 500 g/jour de lin extrudé augmente significativement la teneur en C18:3 ω3 du lait bovin, en accord avec nos résultats chez LE GOFF.</p></div>
+    <div class="vc"><div class="vc-date">2023 — Biochimie laitière</div><h3>Effet de la race sur le taux protéique</h3><p>Méta-analyse INRAE confirmant que les races fromagères (Montbéliarde, Pie Rouge) présentent en moyenne 8 à 12 % de protéines de plus que la Prim'Holstein.</p></div>
+    <div class="vc"><div class="vc-date">2023 — Qualité de l'eau</div><h3>Minéralisation et santé des bovins</h3><p>Une eau calcaire (Ca²⁺ &gt; 40 mg/L) contribue marginalement mais significativement à l'apport calcique journalier des vaches.</p></div>
+    <div class="vc"><div class="vc-date">2024 — Métrologie</div><h3>Mise à jour du guide EURACHEM</h3><p>Le guide de quantification des incertitudes a été actualisé en 2023, avec de nouvelles recommandations pour la titrimétrie en routine.</p></div>
+    <div class="vc"><div class="vc-date">2025 — Santé publique</div><h3>Recommandations ω3/ω6 — ANSES</h3><p>L'ANSES recommande d'augmenter la consommation d'oméga-3. Le lait de vaches nourries à l'herbe est un vecteur alimentaire pertinent.</p></div>
+    <div class="vc"><div class="vc-date">2024 — Analytique</div><h3>Nouvelles colonnes CPG pour les EMAG</h3><p>Colonnes capillaires polaires (SP-2560, 100 m) permettant une meilleure résolution des isomères cis/trans des C18 (CLA).</p></div>
+  </div>
+</section>
+
+<section id="glossaire" class="reveal">
+  <div class="sec-tag">08 — Glossaire scientifique</div>
+  <h2>Concepts et terminologie utilisés</h2>
+  <p class="lead">Glossaire alphabétique des termes scientifiques et techniques mobilisés dans ce projet.</p>
+  <div class="glossary">
+    <div class="glo-letter">A</div>
+    <div class="glo-entry"><div class="glo-term">AAS — Atomic Absorption Spectrometry <span class="abbr">SAA en français</span></div><div class="glo-def">Spectrométrie d'absorption atomique. Technique d'analyse quantitative des éléments métalliques basée sur l'absorption de la lumière par les atomes en phase gazeuse, dans une flamme.</div></div>
+    <div class="glo-entry"><div class="glo-term">AES — Atomic Emission Spectrometry <span class="abbr">SEA en français</span></div><div class="glo-def">Spectrométrie d'émission atomique. Mesure l'émission de lumière par les atomes excités dans une flamme. Utilisée pour Na et K.</div></div>
+    <div class="glo-entry"><div class="glo-term">AG / AGS / AGMI / AGPI</div><div class="glo-def">Acides Gras Saturés / Mono-Insaturés / Poly-Insaturés. Classification selon le nombre de doubles liaisons. Les AGPI ω3 sont essentiels.</div></div>
+    <div class="glo-letter">C</div>
+    <div class="glo-entry"><div class="glo-term">CPG — Chromatographie en Phase Gazeuse <span class="abbr">GC en anglais</span></div><div class="glo-def">Technique de séparation des composés volatils sur une colonne capillaire, avec détection FID. Permet d'identifier et quantifier les acides gras.</div></div>
+    <div class="glo-letter">E</div>
+    <div class="glo-entry"><div class="glo-term">EMAG — Esters Méthyliques d'Acides Gras <span class="abbr">FAME en anglais</span></div><div class="glo-def">Forme dérivée des acides gras obtenue par transestérification. Plus volatile, donc plus facilement analysable par CPG.</div></div>
+    <div class="glo-letter">F</div>
+    <div class="glo-entry"><div class="glo-term">FID — Flame Ionisation Detector</div><div class="glo-def">Détecteur à ionisation de flamme utilisé en CPG. Très sensible aux composés organiques carbonés.</div></div>
+    <div class="glo-letter">K</div>
+    <div class="glo-entry"><div class="glo-term">Kjeldahl (méthode)</div><div class="glo-def">Méthode normalisée de dosage de l'azote total. Trois étapes : minéralisation (H₂SO₄), distillation (NaOH), titration. Conversion en protéines : %N × 6,38 (lait).</div></div>
+    <div class="glo-letter">L</div>
+    <div class="glo-entry"><div class="glo-term">LOD — Limite de détection</div><div class="glo-def">Plus petite concentration détectable d'un analyte. Calculée : 3 × écart-type du blanc / pente de la droite d'étalonnage.</div></div>
+    <div class="glo-entry"><div class="glo-term">LOQ — Limite de quantification</div><div class="glo-def">Plus petite concentration quantifiable avec une incertitude acceptable. Calculée : 10 × écart-type du blanc / pente.</div></div>
+    <div class="glo-letter">M</div>
+    <div class="glo-entry"><div class="glo-term">Mamelle (glande mammaire)</div><div class="glo-def">Organe de production du lait chez les mammifères. Régule activement la composition minérale et synthétise une partie des acides gras de novo.</div></div>
+    <div class="glo-entry"><div class="glo-term">Minéralisation</div><div class="glo-def">Étape consistant à détruire la matière organique d'un échantillon par voie acide ou thermique pour libérer les éléments à doser.</div></div>
+    <div class="glo-letter">O</div>
+    <div class="glo-entry"><div class="glo-term">Oméga-3 (ω3)</div><div class="glo-def">Famille d'acides gras polyinsaturés. L'acide α-linolénique (C18:3 ω3) est un AG essentiel apporté par l'alimentation, notamment l'herbe et le lin.</div></div>
+    <div class="glo-letter">T</div>
+    <div class="glo-entry"><div class="glo-term">Transestérification</div><div class="glo-def">Réaction chimique convertissant les triglycérides en esters méthyliques (EMAG) par méthanolyse, pour les rendre analysables en CPG.</div></div>
+    <div class="glo-entry"><div class="glo-term">TR — Temps de rétention</div><div class="glo-def">Durée mise par un composé pour traverser la colonne chromatographique. Permet l'identification par comparaison avec un étalon.</div></div>
+    <div class="glo-letter">U</div>
+    <div class="glo-entry"><div class="glo-term">Incertitude élargie U (k=2)</div><div class="glo-def">Intervalle dans lequel se trouve la vraie valeur avec une probabilité de 95 %. U = k × u_combinée avec k = 2.</div></div>
+  </div>
+</section>
+
+<section id="bibliographie" class="reveal">
+  <div class="sec-tag">09 — Bibliographie</div>
+  <h2>Sources primaires et secondaires</h2>
+  <p class="lead">Références bibliographiques organisées par type de source, citées dans le rapport et utilisées tout au long du projet.</p>
+
+  <div class="sub-tag" style="margin-top:2rem;">Sources primaires (articles originaux et normes)</div>
+  <div class="biblio-list">
+    <div class="biblio-entry"><span class="ref-num">[1]</span> Chilliard Y., Ferlay A., Doreau M. (2001). Effect of different types of forages, animal fat or marine oils in cow's diet on milk fat secretion and composition. <em>Livestock Production Science</em>, 70(1-2), 31–48.</div>
+    <div class="biblio-entry"><span class="ref-num">[2]</span> NF EN ISO 8968-1 (2014). <em>Lait et produits laitiers — Détermination de la teneur en azote — Partie 1 : Méthode Kjeldahl.</em> AFNOR.</div>
+    <div class="biblio-entry"><span class="ref-num">[3]</span> Norme ISO 2446 (2008). <em>Lait — Détermination de la teneur en matière grasse (méthode de référence).</em></div>
+    <div class="biblio-entry"><span class="ref-num">[4]</span> Arrêté du 11 janvier 2007 relatif aux limites et références de qualité des eaux destinées à la consommation humaine.</div>
+    <div class="biblio-entry"><span class="ref-num">[5]</span> EURACHEM/CITAC CG 4 (2012). <em>Quantifying Uncertainty in Analytical Measurement</em>, 3rd edition.</div>
+  </div>
+
+  <div class="sub-tag" style="margin-top:2.5rem;">Sources secondaires (ouvrages, tables, documentation)</div>
+  <div class="biblio-list">
+    <div class="biblio-entry"><span class="ref-num">[6]</span> INRAE (2018). <em>Alimentation des ruminants.</em> Éditions Quæ, Versailles.</div>
+    <div class="biblio-entry"><span class="ref-num">[7]</span> Walstra P., Wouters J.T.M., Geurts T.J. (2006). <em>Dairy Science and Technology</em>, 2nd edition. CRC Press.</div>
+    <div class="biblio-entry"><span class="ref-num">[8]</span> Institut de l'Élevage (2022). <em>Races laitières françaises : performances et spécificités.</em></div>
+    <div class="biblio-entry"><span class="ref-num">[9]</span> SUPELCO (2023). <em>GLC-10 and GLC-30 Fatty Acid Methyl Ester Mixtures — Technical bulletins.</em> Sigma-Aldrich / Merck.</div>
+    <div class="biblio-entry"><span class="ref-num">[10]</span> Thermo Fisher Scientific (2022). <em>TRACE 1600 Gas Chromatograph — User Manual.</em></div>
+    <div class="biblio-entry"><span class="ref-num">[11]</span> BUCHI Labortechnik AG (2020). <em>KjelFlex K-360 — Operating Manual.</em></div>
+    <div class="biblio-entry"><span class="ref-num">[12]</span> Varian / Agilent (2021). <em>SpectrAA Software — User Guide.</em></div>
+  </div>
+</section>
+
+<section id="liens" class="reveal">
+  <div class="sec-tag">10 — Liens associés</div>
+  <h2>Laboratoires, bases de données et revues</h2>
+  <p class="lead">Ressources externes en lien avec le projet, classées par catégorie d'utilité.</p>
+  <div class="links-grid">
+    <a class="link-card" href="https://www.inrae.fr" target="_blank" rel="noopener"><div class="link-cat">Laboratoire</div><h3>INRAE</h3><p>Institut national de recherche pour l'agriculture, l'alimentation et l'environnement.</p></a>
+    <a class="link-card" href="https://idele.fr" target="_blank" rel="noopener"><div class="link-cat">Institut</div><h3>Institut de l'Élevage (IDELE)</h3><p>Données techniques sur les races laitières françaises, performances et pratiques d'élevage.</p></a>
+    <a class="link-card" href="https://www.cniel.com" target="_blank" rel="noopener"><div class="link-cat">Filière</div><h3>CNIEL</h3><p>Centre National Interprofessionnel de l'Économie Laitière.</p></a>
+    <a class="link-card" href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener"><div class="link-cat">Base de données</div><h3>PubMed</h3><p>Base biomédicale internationale (NCBI). Articles scientifiques en biochimie et nutrition.</p></a>
+    <a class="link-card" href="https://scholar.google.com" target="_blank" rel="noopener"><div class="link-cat">Base de données</div><h3>Google Scholar</h3><p>Moteur de recherche scientifique multidisciplinaire pour la recherche bibliographique.</p></a>
+    <a class="link-card" href="https://www.afnor.org" target="_blank" rel="noopener"><div class="link-cat">Normes</div><h3>AFNOR</h3><p>Normes françaises NF et internationales ISO. Référentiel pour les méthodes analytiques.</p></a>
+    <a class="link-card" href="https://www.sciencedirect.com/journal/livestock-production-science" target="_blank" rel="noopener"><div class="link-cat">Revue</div><h3>Livestock Production Science</h3><p>Revue scientifique sur la production animale.</p></a>
+    <a class="link-card" href="https://www.sigmaaldrich.com" target="_blank" rel="noopener"><div class="link-cat">Fournisseur</div><h3>Sigma-Aldrich / Merck</h3><p>Fournisseur de réactifs et étalons analytiques (GLC-10, GLC-30).</p></a>
+    <a class="link-card" href="https://www.eurachem.org" target="_blank" rel="noopener"><div class="link-cat">Métrologie</div><h3>EURACHEM</h3><p>Organisation européenne pour la chimie analytique.</p></a>
+  </div>
+</section>
+
+<section id="apropos" class="reveal">
+  <div class="sec-tag">11 — À propos</div>
+  <h2>Méthodologie, sources et auteure</h2>
+  <p class="lead">Ce site constitue le système d'information documentaire numérique conçu dans le cadre de la capacité C3.1 du BTS Anabiotec.</p>
+
+  <div class="about-grid">
+    <div>
+      <div class="about-card">
+        <h3>Marion Claustre</h3>
+        <div class="about-role">Étudiante BTS Anabiotec · Promo 2024-2026</div>
+        <div class="about-info">
+          <span>Établissement</span><strong>LEGTA Le Gros Chêne, Pontivy (56308)</strong>
+          <span>Évaluateur</span><strong>E. BREMOND</strong>
+          <span>Épreuve</span><strong>ECCF Documentation — C3.1</strong>
+          <span>Module</span><strong>UE 4.2 — Projet M8</strong>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="method-section">
+        <div class="sub-tag">Méthodologie de construction du SID</div>
+        <h3>Démarche en 4 étapes</h3>
+        <p>Ce site a été construit en suivant rigoureusement les 4 fonctions fondamentales d'un SID, permettant de transformer l'information brute en connaissance accessible et utilisable.</p>
+      </div>
+      <div class="method-section">
+        <div class="sub-tag">Outils utilisés</div>
+        <p>HTML5 / CSS3 (site web statique) · Google Scholar · PubMed · SpectrAA · Google Sheets · Microsoft Word · matplotlib (graphiques scientifiques)</p>
+      </div>
+      <div class="method-section">
+        <div class="sub-tag">Traçabilité de l'information</div>
+        <p>Toutes les données présentées sur ce site sont issues d'analyses réelles menées au laboratoire LABO-07 du LEGTA Le Gros Chêne en mars 2026, ou de sources bibliographiques référencées (voir section 09). Les protocoles respectent les normes ISO en vigueur. Les calculs d'incertitudes suivent le guide EURACHEM/CITAC CG 4.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-content">
+    <div class="foot-brand">SID · Composition du lait</div>
+    <div class="foot-text">BTS Anabiotec — UE 4.2 — Projet M8 — Marion Claustre — Mars 2026</div>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.05 });
+reveals.forEach(r => obs.observe(r));
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+});
+</script>
+</body>
+</html>
